@@ -1,0 +1,187 @@
+<div class="px-8 py-8">
+	<p-table
+    #table
+		[value]="catBreeds()"
+		[tableStyle]="{'min-width': '60rem'}"
+		[loading]="loading()"
+		[paginator]="true"
+		[rows]="10"
+		[rowsPerPageOptions]="[5, 10, 25, 50]"
+		class="p-datatable-striped p-datatable-gridlines"
+		[globalFilterFields]="['name', 'origin', 'temperament']"
+		dataKey="id"
+	>
+		<ng-template pTemplate="caption">
+			<div class="flex flex-row justify-between align-items-center">
+				<h1 class="">Razas de gatos</h1>
+				<p-iconfield>
+					<p-inputicon class="pi pi-search"/>
+					<input type="text" (input)="onGlobalFilter($event)" pInputText placeholder="Search"/>
+				</p-iconfield>
+
+			</div>
+		</ng-template>
+
+		<ng-template pTemplate="header">
+			<tr>
+				<th pSortableColumn="name" style="min-width:200px">Nombre
+					<p-sortIcon field="name"></p-sortIcon>
+				</th>
+				<th pSortableColumn="origin">Origen
+					<p-sortIcon field="origin"></p-sortIcon>
+				</th>
+				<th pSortableColumn="temperament">Temperamento
+					<p-sortIcon field="temperament"></p-sortIcon>
+				</th>
+				<th pSortableColumn="intelligence">Intelligencia
+					<p-sortIcon field="intelligence"></p-sortIcon>
+				</th>
+				<th pSortableColumn="adaptability">Adaptabilidad
+					<p-sortIcon field="adaptability"></p-sortIcon>
+				</th>
+				<th>Acciones</th>
+			</tr>
+		</ng-template>
+
+		<ng-template pTemplate="body" let-cat>
+			<tr>
+				<td>
+					<div class="flex align-items-center gap-2">
+						@if (cat.image?.url) {
+							<img
+								[src]="cat.image?.url"
+								[alt]="cat.name"
+								width="32"
+								class="cat-thumbnail shadow-2"
+							/>
+						}
+						<span class="font-bold">{{ cat.name }}</span>
+					</div>
+				</td>
+				<td>{{ cat.origin }}</td>
+				<td>{{ cat.temperament }}</td>
+				<td>
+					<p-rating
+						[ngModel]="cat.intelligence"
+						[readonly]="true"
+						[stars]="5"
+					></p-rating>
+				</td>
+				<td>
+					<p-tag
+						[value]="cat.adaptability.toString()"
+						[severity]="getRatingTag(cat.adaptability)"
+					></p-tag>
+				</td>
+				<td>
+					<div class="flex gap-2">
+						<p-button
+							icon="pi pi-eye"
+							(click)="viewDetails(cat)"
+							tooltipPosition="top"
+							pTooltip="View Details"
+						></p-button>
+					</div>
+				</td>
+			</tr>
+		</ng-template>
+
+		<ng-template pTemplate="emptymessage">
+			<tr>
+				<td colspan="6" class="text-center p-4">
+					No se encontraron razas de gatos.
+				</td>
+			</tr>
+		</ng-template>
+
+	</p-table>
+</div>
+
+<p-dialog
+	[(visible)]="displayDialog"
+	[modal]="true"
+	[style]="{width: '90%', maxWidth: '800px'}"
+	[header]="selectedCat?.name || 'Detalle de gato'"
+	[draggable]="false"
+	[resizable]="false"
+>
+	@if (selectedCat && !dialogLoading) {
+		<div class="cat-detail-content">
+			<div class="grid">
+				<div class="col-12 md:col-6">
+					@if (catImages().length) {
+						<p-galleria
+							[value]="catImages()"
+							[numVisible]="5"
+							[circular]="true"
+							[showItemNavigators]="true"
+							[containerStyle]="{'max-width': '100%'}"
+						>
+							<ng-template pTemplate="item" let-item>
+								<img [src]="item.url" [alt]="selectedCat.name" class="w-full available-image"/>
+							</ng-template>
+							<ng-template pTemplate="thumbnail" let-item>
+								<div class="grid grid-nogutter justify-content-center">
+									<img [src]="item.url" class="thumbnail-image"/>
+								</div>
+							</ng-template>
+						</p-galleria>
+					}
+					@if (!catImages().length) {
+						<div class="no-image-container">
+							<i class="pi pi-image" style="font-size: 3rem"></i>
+							<span>Imagen no disponible</span>
+						</div>
+					}
+				</div>
+
+				<div class="col-12 md:col-6">
+					<div class="description-section">
+						<h3>Descripcion</h3>
+						<p>{{ selectedCat.description }}</p>
+					</div>
+
+					<div class="attribute-section">
+						<div class="attribute-row">
+							<span class="attribute-label">Origen:</span>
+							<span>{{ selectedCat.origin }}</span>
+						</div>
+						<div class="attribute-row">
+							<span class="attribute-label">Temperamento:</span>
+							<span>{{ selectedCat.temperament }}</span>
+						</div>
+						<div class="attribute-row">
+							<span class="attribute-label">Esperanza de vida:</span>
+							<span>{{ selectedCat.life_span }} años</span>
+						</div>
+					</div>
+
+					<div class="ratings-section">
+						<h3>Calificaciones</h3>
+						<div class="rating-grid">
+							<div class="rating-item">
+								<span>Intelligencia:</span>
+								<p-rating [ngModel]="selectedCat.intelligence" [readonly]="true"></p-rating>
+							</div>
+							<div class="rating-item">
+								<span>Adaptabilidad:</span>
+								<p-rating [ngModel]="selectedCat.adaptability" [readonly]="true"></p-rating>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+	@if (dialogLoading) {
+		<div class="dialog-loading">
+			<p-progressSpinner class="w-4rem h-4rem" strokeWidth="4"
+			                   animationDuration=".5s"></p-progressSpinner>
+			<div class="mt-3">LCargando detalles...</div>
+		</div>
+	}
+
+	<ng-template pTemplate="footer">
+		<p-button icon="pi pi-times" (click)="closeDialog()" label="Close" styleClass="p-button-text"></p-button>
+	</ng-template>
+</p-dialog>

@@ -1,0 +1,99 @@
+<section class="container">
+	<div class="cat-card-container">
+		<p-card>
+			<ng-template pTemplate="header">
+				<div class="card-header w-full">
+					<h2>Razas de Gatos</h2>
+					<p-select
+						[filter]="true"
+						style="width: 100%"
+						[options]="listOfCats()"
+						[(ngModel)]="selectedCat"
+						optionLabel="name"
+						placeholder="Selecciona una raza"
+						[showClear]="true"
+						(onChange)="onCatChange($event)">
+					</p-select>
+				</div>
+			</ng-template>
+			@if (loading()) {
+				<div class="flex flex-row justify-center p-4">
+					<p-progressSpinner
+						[style]="{ width: '50px', height: '50px' }"
+						strokeWidth="6" animationDuration=".5s"></p-progressSpinner>
+				</div>
+			} @else {
+				@if (selectedCat) {
+					<div class="cat-content">
+						<div class="cat-image">
+							@if (catImages().length > 0) {
+								<p-galleria [value]="catImages()" [showIndicators]="true" [showThumbnails]="false"
+								            [containerStyle]="{ 'max-width': '640px' }">
+									<ng-template #item let-item>
+										<img [src]="item.url" style="width: 100%; display: block;"/>
+									</ng-template>
+								</p-galleria>
+							} @else {
+								<div class="no-image">No hay imagen disponible</div>
+							}
+						</div>
+						<div class="cat-details">
+							<h3>{{ selectedCat.name }}</h3>
+							<p class="description">{{ selectedCat.description }}</p>
+
+							<div class="cat-attributes">
+								<div class="attribute-row">
+									<span class="attribute-label">Origen:</span>
+									<span>{{ selectedCat.origin }}</span>
+								</div>
+								<div class="attribute-row">
+									<span class="attribute-label">Temperamento:</span>
+									<span>{{ selectedCat.temperament }}</span>
+								</div>
+								<div class="attribute-row">
+									<span class="attribute-label">Esperanza de vida:</span>
+									<span>{{ selectedCat.life_span }} años</span>
+								</div>
+							</div>
+							<div class="cat-ratings">
+								<div class="rating-item">
+									<span>Adaptabilidad:</span>
+									<p-tag [severity]="getRatingTag(selectedCat.adaptability || 0)"
+									       [value]="selectedCat.adaptability + '/5'"></p-tag>
+								</div>
+								<div class="rating-item">
+									<span>Nivel de afecto:</span>
+									<p-tag [severity]="getRatingTag(selectedCat.affection_level || 0)"
+									       [value]="selectedCat.affection_level + '/5'"></p-tag>
+								</div>
+								<div class="rating-item">
+									<span>Amigable con niños:</span>
+									<p-tag [severity]="getRatingTag(selectedCat.child_friendly || 0)"
+									       [value]="selectedCat.child_friendly + '/5'"></p-tag>
+								</div>
+								<div class="rating-item">
+									<span>Amigable con perros:</span>
+									<p-tag [severity]="getRatingTag(selectedCat.dog_friendly || 0)"
+									       [value]="selectedCat.dog_friendly + '/5'"></p-tag>
+								</div>
+							</div>
+						</div>
+					</div>
+				} @else {
+					<div class="no-selection">
+						<p>Selecciona una raza de gato para ver sus detalles</p>
+					</div>
+				}
+				<ng-template pTemplate="footer">
+					@if (selectedCat?.wikipedia_url) {
+						<div class="flex flex-row justify-center">
+							<a [href]="selectedCat?.wikipedia_url" target="_blank" rel="noopener noreferrer">
+								<p-button label="Más información" icon="pi pi-external-link"></p-button>
+							</a>
+						</div>
+					}
+				</ng-template>
+			}
+		</p-card>
+	</div>
+</section>
