@@ -44,7 +44,7 @@ export class AuthService {
     const user = {
       name: 'Usuario 1', token: '$2a$12$t.zFGlMUUrWMnqXnJt2gbOnGHRMmNaB81BvCbtFkuiZ.26QB7PYS2', email: email
     };
-    if( email === 'correo@correo.com' || password === 'Admin123' ) {
+    if( email === 'correo@correo.com' && password === 'Admin123' ) {
       this.authState.login( user );
       return of( {
         user

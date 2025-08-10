@@ -1,7 +1,46 @@
 <div class="app-container">
-  <p-toast position="top-right"></p-toast>
+	<p-toast position="top-right"></p-toast>
 
-  <main class="main-content">
-    <router-outlet />
-  </main>
+	<!-- Barra de navegación -->
+	@if (isLoggedIn) {
+		<p-toolbar class="app-navbar mb-3">
+			<ng-template pTemplate="start">
+				<div class="flex align-items-center">
+					<p-button type="button"
+					          [text]="true"
+					          icon="pi pi-home" label="Inicio" (click)="navigateToHome()"
+					          class="mr-2"></p-button>
+					<p-button type="button"
+					          [text]="true"
+					          icon="pi pi-table" label="Tabla de Gatos" (click)="navigateToCatsList()"
+					          class="p-button-text"></p-button>
+				</div>
+			</ng-template>
+			<ng-template pTemplate="end">
+				<div class="flex align-items-center">
+					<div class="user-info-container mr-2">
+						<span class="user-name">{{ currentUser?.name }}</span>
+						<span class="user-email">{{ currentUser?.email }}</span>
+					</div>
+					<!-- Avatar y menú de usuario -->
+					<div class="user-avatar-container">
+						<p-avatar [label]="userInitial" class="mr-2" shape="circle"
+						          (click)="userMenu.toggle($event)"></p-avatar>
+						<p-tieredMenu #userMenu [model]="userMenuItems" [popup]="true"></p-tieredMenu>
+					</div>
+					<p-button
+						type="button"
+						severity="danger"
+						icon="pi pi-sign-out"
+						label="Cerrar sesión"
+						(click)="logout()"
+						[outlined]="true">
+					</p-button>
+				</div>
+			</ng-template>
+		</p-toolbar>
+	}
+	<main class="main-content">
+		<router-outlet/>
+	</main>
 </div>

@@ -57,13 +57,19 @@ export class Login implements OnInit {
     setTimeout( () => {
       this.authService.login( this.loginForm.value.email, this.loginForm.value.password ).subscribe( {
         next: ( response ) => {
-          this.messageService.add( {
-            severity: 'success', summary: 'Login Exitoso', detail: '¡Bienvenido a Cat Breeds App!'
-          } );
-          setTimeout( () => {
+          if( response.user ) {
+            this.messageService.add( {
+              severity: 'success', summary: 'Login Exitoso', detail: '¡Bienvenido a Cat Breeds App!'
+            } );
             this.isSubmitting = false;
             this.router.navigate( [ '/cats' ] );
-          }, 1000 );
+          } else {
+            this.messageService.add( {
+              severity: 'error', summary: 'Error de Login', detail: 'Credenciales incorrectas. Intente nuevamente.'
+            } );
+            this.isSubmitting = false;
+          }
+
         }, error: ( error ) => {
           this.messageService.add( {
             severity: 'error', summary: 'Error de Login', detail: 'Credenciales incorrectas. Intente nuevamente.'

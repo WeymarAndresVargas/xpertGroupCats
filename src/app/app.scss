@@ -8,4 +8,72 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  .app-title {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .user-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-color);
+    }
+
+    .user-email {
+      font-size: 0.8rem;
+      color: var(--text-color-secondary);
+    }
+  }
+
+  .user-avatar-container {
+    cursor: pointer;
+  }
+
+  ::ng-deep .p-tieredmenu {
+    min-width: 12rem;
+
+    .p-menuitem {
+      .p-menuitem-link {
+        padding: 0.75rem 1rem;
+
+        .p-menuitem-icon {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .app-title-container {
+    display: none;
+  }
+  .app-navbar {
+    ::ng-deep .p-toolbar-group-end {
+      .user-info-container {
+        display: none; /* Hide user info on small screens */
+      }
+
+      .p-button-label {
+        display: none; /* Hide button labels on small screens */
+      }
+    }
+  }
 }
