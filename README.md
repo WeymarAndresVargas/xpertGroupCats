@@ -1,59 +1,86 @@
 # XpertGroupCats
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.5.
+Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-cli) versión 20.1.5.
 
-## Development server
+## Descripción del Proyecto
 
-To start a local development server, run:
+XpertGroupCats es una aplicación web desarrollada con Angular 20 que permite a los usuarios explorar y gestionar información sobre razas de gatos. La aplicación cuenta con un sistema de autenticación y diferentes características para interactuar con la información de gatos.
 
-```bash
-ng serve
-```
+## Características Principales
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Sistema de Autenticación**: Login seguro con validación de credenciales
+- **Exploración de Razas de Gatos**: Visualización y búsqueda de diferentes razas
+- **Interfaz Moderna**: Diseñada con PrimeNG y Tailwind CSS para una experiencia de usuario óptima
 
-## Code scaffolding
+## Tecnologías Utilizadas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Frontend**: Angular 20.1.0
+- **Estilos**: Tailwind CSS 4.1.11, PrimeNG 20.0.1
+- **Estado**: NgRx Signals 20.0.0
+- **Testing**: Jasmine 5.8.0, Karma 6.4.0
 
-```bash
-ng generate component component-name
-```
+## Requisitos Previos
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Node.js (versión recomendada: 18.x o superior)
+- npm (incluido con Node.js)
 
-```bash
-ng generate --help
-```
+## Instalación
 
-## Building
+1. Clona este repositorio:
+   ```bash
+   git clone [https://github.com/WeymarAndresVargas/xpertGroupCats.git]
+   ```
 
-To build the project run:
+2. Navega hasta el directorio del proyecto:
+   ```bash
+   cd XpertGroupCats
+   ```
 
-```bash
-ng build
-```
+3. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Servidor de Desarrollo
 
-## Running unit tests
+Para iniciar un servidor de desarrollo local, ejecuta:
+    ```bash
+    ng serve
+    ```
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Una vez que el servidor esté en funcionamiento, abre tu navegador y navega a `http://localhost:4200/`. La aplicación se recargará automáticamente cada vez que modifiques cualquiera de los archivos fuente.
 
-```bash
-ng test
-```
+## Estructura del Proyecto
 
-## Running end-to-end tests
+- **/src/app/features**: Contiene los módulos principales de la aplicación
+  - **/auth**: Componentes relacionados con la autenticación (login)
+  - **/cats**: Componentes para la gestión y visualización de razas de gatos
+- **/src/app/services**: Servicios para la comunicación con APIs y lógica de negocio
+- **/src/app/core**: Funcionalidades esenciales que se cargan una sola vez
 
-For end-to-end (e2e) testing, run:
+## Generación de Código
 
-```bash
-ng e2e
-```
+Angular CLI incluye potentes herramientas de scaffolding. Para generar un nuevo componente, ejecuta:
+Para una lista completa de esquemas disponibles (como `components`, `directives` o `pipes`), ejecuta:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Compilación
 
-## Additional Resources
+Esto compilará tu proyecto y almacenará los artefactos de compilación en el directorio `dist/`. Por defecto, la compilación de producción optimiza tu aplicación para rendimiento y velocidad.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Ejecución de Pruebas Unitarias
+
+Para ejecutar pruebas unitarias con [Karma](https://karma-runner.github.io), utiliza el siguiente comando:
+   ```bash
+     ng test
+   ```
+
+## Recursos Adicionales
+
+Al no contar con API para autenticacion se realizo un login local (fake), con las siguientes credenciales
+ 
+ ``
+  {
+   email : correo@correo.com,
+   password: Admin123
+  }
+   ``
