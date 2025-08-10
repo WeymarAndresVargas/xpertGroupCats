@@ -61,7 +61,15 @@ Una vez que el servidor esté en funcionamiento, abre tu navegador y navega a `h
 ## Generación de Código
 
 Angular CLI incluye potentes herramientas de scaffolding. Para generar un nuevo componente, ejecuta:
+  ```bash
+    ng g c component-name
+  ```
+
 Para una lista completa de esquemas disponibles (como `components`, `directives` o `pipes`), ejecuta:
+
+  ```bash
+    ng g --help
+  ```
 
 ## Compilación
 
