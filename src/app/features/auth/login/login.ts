@@ -23,10 +23,12 @@ import { AuthService } from '../../../services/auth.service';
 export class Login implements OnInit {
 
   authService = inject( AuthService );
+  router = inject( Router );
+  messageService = inject( MessageService );
   loginForm!: FormGroup;
   isSubmitting = false;
 
-  constructor( private fb: FormBuilder, private router: Router, private messageService: MessageService ) {
+  constructor( private fb: FormBuilder ) {
   }
 
   get email() {
@@ -77,6 +79,6 @@ export class Login implements OnInit {
           this.isSubmitting = false;
         }
       } );
-    }, 1500 );
+    }, 1200 );
   }
 }

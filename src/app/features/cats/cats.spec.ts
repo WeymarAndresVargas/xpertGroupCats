@@ -134,11 +134,8 @@ describe( 'Cats Component', () => {
     fixture.detectChanges();
     tick();
     const breedCat = mockCatBreeds[ 1 ];
-
-    // Simulate cat selection
     component.onCatChange( { value: breedCat } );
     tick();
-
     expect( catsService.getImages ).toHaveBeenCalledWith( breedCat.id );
     expect( component[ 'catImages' ]() ).toEqual( mockCatImages );
   } ) );

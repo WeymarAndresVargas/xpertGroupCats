@@ -100,20 +100,17 @@ describe( 'CatsService', () => {
         expect( error.status ).toBe( 500 );
       }
     } );
-
     const req = httpMock.expectOne( `${ environment.apiUrl }breeds` );
     req.flush( 'Error fetching cat breeds', { status: 500, statusText: 'Server Error' } );
   } );
 
   it( 'should handle errors when fetching cat images', () => {
     const breedId = 'abys';
-
     service.getImages( breedId ).subscribe( {
       next: () => fail( 'Expected error, but got images' ), error: error => {
         expect( error.status ).toBe( 500 );
       }
     } );
-
     const req = httpMock.expectOne( `${ environment.apiUrl }images/search?breed_id=${ breedId }&limit=10` );
     req.flush( 'Error fetching cat images', { status: 500, statusText: 'Server Error' } );
   } );

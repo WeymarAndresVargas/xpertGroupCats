@@ -108,11 +108,9 @@ describe( 'TableCats Component', () => {
         { provide: CatsService, useValue: catsServiceSpy }
       ]
     } ).compileComponents();
-
     catsService = TestBed.inject( CatsService ) as jasmine.SpyObj<CatsService>;
     catsService.getCatsBreeds.and.returnValue( of( mockCatBreeds ) );
     catsService.getImages.and.returnValue( of( mockCatImages ) );
-
     fixture = TestBed.createComponent( TableCats );
     component = fixture.componentInstance;
   } );
@@ -124,7 +122,6 @@ describe( 'TableCats Component', () => {
   it( 'should load cat breeds on initialization', fakeAsync( () => {
     fixture.detectChanges();
     tick();
-
     expect( catsService.getCatsBreeds ).toHaveBeenCalled();
     expect( component[ 'catBreeds' ]() ).toEqual( mockCatBreeds );
     expect( component[ 'loading' ]() ).toBeFalse();
@@ -134,10 +131,8 @@ describe( 'TableCats Component', () => {
     const error = new Error( 'Error loading cat breeds' );
     catsService.getCatsBreeds.and.returnValue( throwError( () => error ) );
     spyOn( console, 'error' );
-
     fixture.detectChanges();
     tick();
-
     expect( catsService.getCatsBreeds ).toHaveBeenCalled();
     expect( console.error ).toHaveBeenCalledWith( 'Error fetching cat breeds:', error );
     expect( component[ 'loading' ]() ).toBeFalse();
@@ -145,25 +140,18 @@ describe( 'TableCats Component', () => {
 
   it( 'should apply global filter when search input changes', () => {
     fixture.detectChanges();
-
     const mockTable = { filterGlobal: jasmine.createSpy( 'filterGlobal' ) };
     component[ 'table' ] = mockTable as any;
-
     const mockEvent = { target: { value: 'searchText' } } as unknown as Event;
-
     component.onGlobalFilter( mockEvent );
-
     expect( mockTable.filterGlobal ).toHaveBeenCalledWith( 'searchText', 'contains' );
   } );
 
   it( 'should show details dialog when a cat is selected', fakeAsync( () => {
     fixture.detectChanges();
     tick();
-
     spyOn( component, 'fetchCatImages' ).and.callThrough();
-
     component.viewDetails( mockCatBreeds[ 0 ] );
-
     expect( component[ 'selectedCat' ] ).toEqual( mockCatBreeds[ 0 ] );
     expect( component[ 'displayDialog' ] ).toBeTrue();
     expect( component.fetchCatImages ).toHaveBeenCalledWith( mockCatBreeds[ 0 ].id );
@@ -172,7 +160,6 @@ describe( 'TableCats Component', () => {
   it( 'should load images when fetchCatImages is called', fakeAsync( () => {
     component.fetchCatImages( 'abys' );
     tick();
-
     expect( catsService.getImages ).toHaveBeenCalledWith( 'abys' );
     expect( component[ 'catImages' ]() ).toEqual( mockCatImages );
     expect( component[ 'dialogLoading' ] ).toBeFalse();
@@ -181,12 +168,9 @@ describe( 'TableCats Component', () => {
   it( 'should handle error when loading cat images', fakeAsync( () => {
     const error = new Error( 'Error loading cat images' );
     catsService.getImages.and.returnValue( throwError( () => error ) );
-
     spyOn( console, 'error' );
-
     component.fetchCatImages( 'abys' );
     tick();
-
     expect( catsService.getImages ).toHaveBeenCalledWith( 'abys' );
     expect( console.error ).toHaveBeenCalledWith( 'Error fetching cat images:', error );
     expect( component[ 'catImages' ]() ).toEqual( [] );
@@ -197,9 +181,7 @@ describe( 'TableCats Component', () => {
     component[ 'displayDialog' ] = true;
     component[ 'selectedCat' ] = mockCatBreeds[ 0 ];
     component[ 'catImages' ].set( mockCatImages );
-
     component.closeDialog();
-
     expect( component[ 'displayDialog' ] ).toBeFalse();
     expect( component[ 'selectedCat' ] ).toBeNull();
     expect( component[ 'catImages' ]() ).toEqual( [] );
